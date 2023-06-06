@@ -1,5 +1,6 @@
 package com.example.todo.model.http
 
+import com.example.todo.database.Todo
 import jakarta.validation.constraints.AssertTrue
 import jakarta.validation.constraints.NotBlank
 import java.lang.Exception
@@ -28,5 +29,16 @@ data class TodoDto(
         } catch(e: Exception){
             false
         }
+    }
+}
+
+fun TodoDto.convertTodoDto(todo: Todo): TodoDto {
+    return TodoDto().apply {
+        this.index = todo.index
+        this.title = todo.title
+        this.description = todo.description
+        this.schedule = todo.schedule?.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+        this.createdAt = todo.createdAt
+        this.updatedAt = todo.updatedAt
     }
 }
